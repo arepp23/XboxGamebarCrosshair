@@ -9,7 +9,7 @@
 
     <Grid>
         <Grid x:Name="layoutRoot">
-            <!--<Image Source="Assets/crosshair.png" HorizontalAlignment="Center" Height="100" VerticalAlignment="Center" Width="100"/>-->
+            <Image x:Name="capturedPhoto"/>
         </Grid>
     </Grid>
 </Page>

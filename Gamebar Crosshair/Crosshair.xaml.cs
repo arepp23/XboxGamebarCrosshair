@@ -17,6 +17,9 @@ using Microsoft.Gaming.XboxGameBar;
 using System.Diagnostics;
 using Microsoft.Gaming.XboxGameBar.Authentication;
 using Windows.UI.Core;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace Gamebar_Crosshair
 {
@@ -30,12 +33,44 @@ namespace Gamebar_Crosshair
 
         public Crosshair()
         {
+            Debug.WriteLine("In Constructor");
             this.InitializeComponent();
 
-            layoutRoot.Children.Add(verticalLine);
-            layoutRoot.Children.Add(horizontalLine);
+            //layoutRoot.Children.Add(verticalLine);
+            //layoutRoot.Children.Add(horizontalLine);
 
-            drawCrosshair();
+            //drawCrosshair();
+
+            
+
+            BitmapImage bitmapImage = new BitmapImage();
+            // Call BaseUri on the root Page element and combine it with a relative path
+            // to consruct an absolute URI.
+            //bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Dropoff.png");
+            //capturedPhoto.Source = bitmapImage;
+            loadImage();
+        }
+
+        private async void loadImage()
+        {
+            Windows.Storage.StorageFolder storageFolder =Windows.Storage.ApplicationData.Current.LocalFolder;
+            var localPath = @"C:\green.png";
+    //        Windows.Storage.StorageFolder localFolder =
+    //Windows.Storage.KnownFolders.PicturesLibrary;
+    //        Windows.Storage.StorageFile sampleFile = await localFolder.GetFileAsync("green.png");
+            Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
+            using (IRandomAccessStream fileStream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+            {
+                // Set the image source to the selected bitmap
+                BitmapImage bitmapImage = new BitmapImage();
+                // Decode pixel sizes are optional
+                // It's generally a good optimisation to decode to match the size you'll display
+                bitmapImage.DecodePixelHeight = 100;
+                bitmapImage.DecodePixelWidth = 100;
+
+                await bitmapImage.SetSourceAsync(fileStream);
+                capturedPhoto.Source = bitmapImage;
+            }
         }
 
         static void drawCrosshair()
