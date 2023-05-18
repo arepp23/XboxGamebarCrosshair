@@ -58,18 +58,27 @@ namespace Gamebar_Crosshair
     //        Windows.Storage.StorageFolder localFolder =
     //Windows.Storage.KnownFolders.PicturesLibrary;
     //        Windows.Storage.StorageFile sampleFile = await localFolder.GetFileAsync("green.png");
-            Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
-            using (IRandomAccessStream fileStream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+            try
             {
-                // Set the image source to the selected bitmap
-                BitmapImage bitmapImage = new BitmapImage();
-                // Decode pixel sizes are optional
-                // It's generally a good optimisation to decode to match the size you'll display
-                bitmapImage.DecodePixelHeight = 100;
-                bitmapImage.DecodePixelWidth = 100;
+                Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
+                using (IRandomAccessStream fileStream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                {
+                    // Set the image source to the selected bitmap
+                    BitmapImage bitmapImage = new BitmapImage();
+                    // Decode pixel sizes are optional
+                    // It's generally a good optimisation to decode to match the size you'll display
+                    bitmapImage.DecodePixelHeight = 100;
+                    bitmapImage.DecodePixelWidth = 100;
 
-                await bitmapImage.SetSourceAsync(fileStream);
-                capturedPhoto.Source = bitmapImage;
+                    await bitmapImage.SetSourceAsync(fileStream);
+                    capturedPhoto.Source = bitmapImage;
+                }
+            }
+            catch (System.UnauthorizedAccessException e)
+            {
+                Debug.WriteLine("Missing perms");
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(MissingPermissions));
             }
         }
 
