@@ -98,6 +98,31 @@ namespace Gamebar_Crosshair
             widget = e.Parameter as XboxGameBarWidget;
 
             widget.SettingsClicked += Widget_SettingsClicked;
+            widget.GameBarDisplayModeChanged += Widget_GameBarDisplayModeChangedAsync;
+        }
+
+        private async void Widget_GameBarDisplayModeChangedAsync(XboxGameBarWidget sender, object args)
+        {
+            Debug.WriteLine("Game Bar View Mode: " + widget.GameBarDisplayMode.ToString());
+            if (widget.GameBarDisplayMode == XboxGameBarDisplayMode.PinnedOnly)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    CenterButton.Visibility = Visibility.Collapsed;
+                    UpArrow.Visibility = Visibility.Collapsed;
+                    PinText.Visibility = Visibility.Collapsed;
+                });
+                
+            }
+            else
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    CenterButton.Visibility = Visibility.Visible;
+                    UpArrow.Visibility = Visibility.Visible;
+                    PinText.Visibility = Visibility.Visible;
+                });
+            }
         }
 
         private async void Widget_SettingsClicked(XboxGameBarWidget sender, object args)
@@ -108,6 +133,11 @@ namespace Gamebar_Crosshair
             });
 
             await widget.ActivateSettingsAsync();
+        }
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await widget.CenterWindowAsync();
         }
     }
 }

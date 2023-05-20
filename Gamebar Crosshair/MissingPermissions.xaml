@@ -26,7 +26,7 @@
         </Button>
         <TextBlock FontStyle="Normal"
                  Visibility="Visible" Margin="15,15,0,0"  TextWrapping="Wrap" FontSize="20"  Grid.Row="2" Grid.Column="0">
-          <Run Text="Enable like this: " />
+          <Run Text="Enable like this then restart this widget: " />
         </TextBlock>
         <Image Source="Assets/PermissionsEnabled.png" Stretch="None" Grid.Row="2" Grid.Column="0"></Image>
     </Grid>
