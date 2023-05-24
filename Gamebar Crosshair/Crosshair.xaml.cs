@@ -54,24 +54,42 @@ namespace Gamebar_Crosshair
         private async void loadImage()
         {
             Windows.Storage.StorageFolder storageFolder =Windows.Storage.ApplicationData.Current.LocalFolder;
-            var localPath = @"C:\green.png";
-    //        Windows.Storage.StorageFolder localFolder =
-    //Windows.Storage.KnownFolders.PicturesLibrary;
-    //        Windows.Storage.StorageFile sampleFile = await localFolder.GetFileAsync("green.png");
+            //var localPath = @"C:\green.png";
+            var localPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\crosshair-mgc-vuetify\\gamebar";
+            var folder = await StorageFolder.GetFolderFromPathAsync(localPath);
+            IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
+            var crosshairFile = fileList.FirstOrDefault();
+            //        Windows.Storage.StorageFolder localFolder =
+            //Windows.Storage.KnownFolders.PicturesLibrary;
+            //        Windows.Storage.StorageFile sampleFile = await localFolder.GetFileAsync("green.png");
             try
-            {
-                Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
-                using (IRandomAccessStream fileStream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
-                {
-                    // Set the image source to the selected bitmap
-                    BitmapImage bitmapImage = new BitmapImage();
-                    // Decode pixel sizes are optional
-                    // It's generally a good optimisation to decode to match the size you'll display
-                    bitmapImage.DecodePixelHeight = 100;
-                    bitmapImage.DecodePixelWidth = 100;
 
-                    await bitmapImage.SetSourceAsync(fileStream);
-                    capturedPhoto.Source = bitmapImage;
+
+            {
+                //Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
+                using (IRandomAccessStream fileStream = await crosshairFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                {
+                    if (crosshairFile.ContentType == "image/svg+xml")
+                    {
+                        SvgImageSource svgImage = new SvgImageSource();
+                        svgImage.RasterizePixelHeight = 500;
+                        svgImage.RasterizePixelWidth = 500;
+                        await svgImage.SetSourceAsync(fileStream);
+                        capturedPhoto.Source = svgImage;
+                    }
+                    else
+                    {
+                        // Set the image source to the selected bitmap
+                        BitmapImage bitmapImage = new BitmapImage();
+                        // Decode pixel sizes are optional
+                        // It's generally a good optimisation to decode to match the size you'll display
+                        bitmapImage.DecodePixelHeight = 100;
+                        bitmapImage.DecodePixelWidth = 100;
+
+                        await bitmapImage.SetSourceAsync(fileStream);
+                        capturedPhoto.Source = bitmapImage;
+                    }
+                        
                 }
             }
             catch (System.UnauthorizedAccessException e)
@@ -99,6 +117,9 @@ namespace Gamebar_Crosshair
 
             widget.SettingsClicked += Widget_SettingsClicked;
             widget.GameBarDisplayModeChanged += Widget_GameBarDisplayModeChangedAsync;
+
+            Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            
         }
 
         private async void Widget_GameBarDisplayModeChangedAsync(XboxGameBarWidget sender, object args)
