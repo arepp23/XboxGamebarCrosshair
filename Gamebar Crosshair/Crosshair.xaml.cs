@@ -31,6 +31,9 @@ namespace Gamebar_Crosshair
         static Rectangle verticalLine = new Rectangle();
         static Rectangle horizontalLine = new Rectangle();
 
+        public Int32 CrosshairHeight = 30;
+        public Int32 CrosshairWidth= 30;
+
         public Crosshair()
         {
             Debug.WriteLine("In Constructor");
@@ -43,11 +46,10 @@ namespace Gamebar_Crosshair
 
             
 
-            BitmapImage bitmapImage = new BitmapImage();
+            
             // Call BaseUri on the root Page element and combine it with a relative path
             // to consruct an absolute URI.
-            //bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Dropoff.png");
-            //capturedPhoto.Source = bitmapImage;
+            
             loadImage();
         }
 
@@ -56,9 +58,7 @@ namespace Gamebar_Crosshair
             Windows.Storage.StorageFolder storageFolder =Windows.Storage.ApplicationData.Current.LocalFolder;
             //var localPath = @"C:\green.png";
             var localPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\crosshair-mgc-vuetify\\gamebar";
-            var folder = await StorageFolder.GetFolderFromPathAsync(localPath);
-            IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
-            var crosshairFile = fileList.FirstOrDefault();
+            
             //        Windows.Storage.StorageFolder localFolder =
             //Windows.Storage.KnownFolders.PicturesLibrary;
             //        Windows.Storage.StorageFile sampleFile = await localFolder.GetFileAsync("green.png");
@@ -66,37 +66,54 @@ namespace Gamebar_Crosshair
 
 
             {
-                //Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
-                using (IRandomAccessStream fileStream = await crosshairFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                var folder = await StorageFolder.GetFolderFromPathAsync(localPath);
+                IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
+                var crosshairFile = fileList.FirstOrDefault();
+                if (crosshairFile == null)
                 {
-                    if (crosshairFile.ContentType == "image/svg+xml")
-                    {
-                        SvgImageSource svgImage = new SvgImageSource();
-                        svgImage.RasterizePixelHeight = 500;
-                        svgImage.RasterizePixelWidth = 500;
-                        await svgImage.SetSourceAsync(fileStream);
-                        capturedPhoto.Source = svgImage;
-                    }
-                    else
-                    {
-                        // Set the image source to the selected bitmap
-                        BitmapImage bitmapImage = new BitmapImage();
-                        // Decode pixel sizes are optional
-                        // It's generally a good optimisation to decode to match the size you'll display
-                        bitmapImage.DecodePixelHeight = 100;
-                        bitmapImage.DecodePixelWidth = 100;
-
-                        await bitmapImage.SetSourceAsync(fileStream);
-                        capturedPhoto.Source = bitmapImage;
-                    }
-                        
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Standard Blue.png");
+                    capturedPhoto.Source = bitmapImage;
                 }
+                else
+                {
+                    //Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
+                    using (IRandomAccessStream fileStream = await crosshairFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                    {
+                        if (crosshairFile.ContentType == "image/svg+xml")
+                        {
+                            SvgImageSource svgImage = new SvgImageSource();
+                            svgImage.RasterizePixelHeight = 500;
+                            svgImage.RasterizePixelWidth = 500;
+                            await svgImage.SetSourceAsync(fileStream);
+                            capturedPhoto.Source = svgImage;
+                        }
+                        else
+                        {
+                            // Set the image source to the selected bitmap
+                            BitmapImage bitmapImage = new BitmapImage();
+                            // Decode pixel sizes are optional
+                            // It's generally a good optimisation to decode to match the size you'll display
+                            bitmapImage.DecodePixelHeight = 100;
+                            bitmapImage.DecodePixelWidth = 100;
+
+                            await bitmapImage.SetSourceAsync(fileStream);
+                            capturedPhoto.Source = bitmapImage;
+                        }
+
+                    }
+                }
+                
             }
             catch (System.UnauthorizedAccessException e)
             {
                 Debug.WriteLine("Missing perms");
                 Frame rootFrame = Window.Current.Content as Frame;
                 rootFrame.Navigate(typeof(MissingPermissions));
+            }
+            catch (NullReferenceException e)
+            {
+                Debug.WriteLine("No source image");
             }
         }
 

@@ -6,14 +6,14 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap3 mp">
+  IgnorableNamespaces="uap uap3 mp rescap">
 
   <Identity
-    Name="41919902-9b72-4772-a802-f104278c3ce8"
-    Publisher="CN=maraz"
-    Version="1.0.0.0" />
+    Name="23863DBSDev.CrosshairMagic"
+    Publisher="CN=42698433-7A02-4CC2-A7B4-8F0E646CB76C"
+    Version="1.0.10.0" />
 
-  <mp:PhoneIdentity PhoneProductId="41919902-9b72-4772-a802-f104278c3ce8" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="fa9ea37d-e2f2-47b2-ab8c-46fd2d0ec624" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>Crosshair Magic</DisplayName>
@@ -37,7 +37,7 @@
         DisplayName="Crosshair Magic"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Crosshair Magic"
+        Description="Crosshair Magic - crosshair overlay tool for gaming"
         BackgroundColor="transparent"
         AppListEntry="none">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>

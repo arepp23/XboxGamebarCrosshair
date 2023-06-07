@@ -1,0 +1,2 @@
+MainPackage=C:\Users\flomu\Desktop\Crosshair\example\XboxGamebarCrosshair\Gamebar Crosshair\bin\x64\Release\Gamebar Crosshair_1.0.10.0_x64.msix
+SymbolPackage=C:\Users\flomu\Desktop\Crosshair\example\XboxGamebarCrosshair\Gamebar Crosshair\obj\x64\Release\Symbols\Gamebar Crosshair_1.0.10.0_x64.appxsym
