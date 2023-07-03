@@ -31,14 +31,14 @@
                 </Grid.RowDefinitions>
                 <!--<Button x:Name="SmallerButton" Visibility="Visible" Grid.Column="0">-</Button>
                 <Button x:Name="BiggerButton" Visibility="Visible" Grid.Column="1">+</Button>-->
-                <TextBlock Grid.Row="0" Grid.Column="0">
+                <TextBlock Grid.Row="0" Grid.Column="0" Name="HeightText">
           <Run Text="Height"/>
                 </TextBlock>
-                <muxc:NumberBox Value="{x:Bind capturedPhoto.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Grid.Row="0" Grid.Column="1" />
-                <TextBlock Grid.Row="1" Grid.Column="0">
+                <muxc:NumberBox Name="HeightNumberBox" Value="{x:Bind capturedPhoto.Height, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Grid.Row="0" Grid.Column="1" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Name="WidthText">
           <Run Text="Width"/>
                 </TextBlock>
-                <muxc:NumberBox Value="{x:Bind capturedPhoto.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Grid.Row="1" Grid.Column="1" />
+                <muxc:NumberBox Name="WidthNumberBox" Value="{x:Bind capturedPhoto.Width, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SpinButtonPlacementMode="Inline" Grid.Row="1" Grid.Column="1" />
             </Grid>
             
         </Grid>

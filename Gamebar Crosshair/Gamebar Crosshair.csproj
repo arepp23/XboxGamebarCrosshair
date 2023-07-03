@@ -126,6 +126,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MissingCrosshair.xaml.cs">
+      <DependentUpon>MissingCrosshair.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CrosshairData.cs" />
     <Compile Include="MissingPermissions.xaml.cs">
       <DependentUpon>MissingPermissions.xaml</DependentUpon>
@@ -187,6 +190,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="MissingCrosshair.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MissingPermissions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -71,9 +71,12 @@ namespace Gamebar_Crosshair
                 var crosshairFile = fileList.FirstOrDefault();
                 if (crosshairFile == null)
                 {
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Standard Blue.png");
-                    capturedPhoto.Source = bitmapImage;
+                    //BitmapImage bitmapImage = new BitmapImage();
+                    //bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Standard Blue.png");
+                    //capturedPhoto.Source = bitmapImage;
+                    Debug.WriteLine("Missing perms");
+                    Frame rootFrame = Window.Current.Content as Frame;
+                    rootFrame.Navigate(typeof(MissingCrosshair));
                 }
                 else
                 {
@@ -149,6 +152,10 @@ namespace Gamebar_Crosshair
                     CenterButton.Visibility = Visibility.Collapsed;
                     UpArrow.Visibility = Visibility.Collapsed;
                     PinText.Visibility = Visibility.Collapsed;
+                    HeightText.Visibility = Visibility.Collapsed;
+                    WidthText.Visibility = Visibility.Collapsed;
+                    HeightNumberBox.Visibility = Visibility.Collapsed;
+                    WidthNumberBox.Visibility = Visibility.Collapsed;
                 });
                 
             }
@@ -159,6 +166,10 @@ namespace Gamebar_Crosshair
                     CenterButton.Visibility = Visibility.Visible;
                     UpArrow.Visibility = Visibility.Visible;
                     PinText.Visibility = Visibility.Visible;
+                    HeightText.Visibility = Visibility.Visible;
+                    WidthText.Visibility = Visibility.Visible;
+                    HeightNumberBox.Visibility = Visibility.Visible;
+                    WidthNumberBox.Visibility = Visibility.Visible;
                 });
             }
         }
