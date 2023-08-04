@@ -11,7 +11,7 @@
   <Identity
     Name="23863DBSDev.CrosshairMagic"
     Publisher="CN=42698433-7A02-4CC2-A7B4-8F0E646CB76C"
-    Version="1.0.11.0" />
+    Version="1.0.13.0" />
 
   <mp:PhoneIdentity PhoneProductId="fa9ea37d-e2f2-47b2-ab8c-46fd2d0ec624" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

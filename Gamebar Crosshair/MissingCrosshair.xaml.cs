@@ -26,5 +26,21 @@ namespace Gamebar_Crosshair
         {
             this.InitializeComponent();
         }
+
+        private async void OpenSteamAppButton_Click(object sender, RoutedEventArgs e)
+        {
+            string uriToLaunch = @"https://store.steampowered.com/app/2385900/Crosshair_Magic__in_game_overlay/";
+            var uri = new Uri(uriToLaunch);
+            var success = await Windows.System.Launcher.LaunchUriAsync(uri);
+
+            //if (success)
+            //{
+            //    // URI launched
+            //}
+            //else
+            //{
+            //    // URI launch failed
+            //}
+        }
     }
 }

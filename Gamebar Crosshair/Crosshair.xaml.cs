@@ -20,6 +20,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.Storage.FileProperties;
 
 namespace Gamebar_Crosshair
 {
@@ -31,8 +32,8 @@ namespace Gamebar_Crosshair
         static Rectangle verticalLine = new Rectangle();
         static Rectangle horizontalLine = new Rectangle();
 
-        public Int32 CrosshairHeight = 30;
-        public Int32 CrosshairWidth= 30;
+        public Int32 CrosshairHeight = 100;
+        public Int32 CrosshairWidth= 100;
 
         public Crosshair()
         {
@@ -57,7 +58,7 @@ namespace Gamebar_Crosshair
         {
             Windows.Storage.StorageFolder storageFolder =Windows.Storage.ApplicationData.Current.LocalFolder;
             //var localPath = @"C:\green.png";
-            var localPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\crosshair-mgc-vuetify\\gamebar";
+            var localPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\Crosshair Magic\\gamebar";
             
             //        Windows.Storage.StorageFolder localFolder =
             //Windows.Storage.KnownFolders.PicturesLibrary;
@@ -69,6 +70,7 @@ namespace Gamebar_Crosshair
                 var folder = await StorageFolder.GetFolderFromPathAsync(localPath);
                 IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
                 var crosshairFile = fileList.FirstOrDefault();
+                ImageProperties imageProperties = await crosshairFile.Properties.GetImagePropertiesAsync();
                 if (crosshairFile == null)
                 {
                     //BitmapImage bitmapImage = new BitmapImage();
@@ -86,8 +88,8 @@ namespace Gamebar_Crosshair
                         if (crosshairFile.ContentType == "image/svg+xml")
                         {
                             SvgImageSource svgImage = new SvgImageSource();
-                            svgImage.RasterizePixelHeight = 500;
-                            svgImage.RasterizePixelWidth = 500;
+                            svgImage.RasterizePixelHeight = imageProperties.Height;
+                            svgImage.RasterizePixelWidth = imageProperties.Width;
                             await svgImage.SetSourceAsync(fileStream);
                             capturedPhoto.Source = svgImage;
                         }
