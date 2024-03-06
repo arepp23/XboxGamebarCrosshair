@@ -11,7 +11,7 @@
     <Grid>
         <TextBlock x:Name="LocationDisabledMessage" FontStyle="Normal"
                  Visibility="Visible" Margin="15,15,0,0" TextWrapping="Wrap" FontSize="20"  Grid.Row="0" Grid.Column="0">
-          <Run Text="This app requires you to have selected a crosshair from the Crosshair Magic app. Click below to go to the app. " />
+          <Run Text="This app requires you to have selected a crosshair from the Crosshair Magic Steam app. Click below to go to the app. " />
         </TextBlock>
         <Button x:Name="OpenSteamAppButton" Margin="15 0 0 0" Click="OpenSteamAppButton_Click" Visibility="Visible" Grid.Row="0" Grid.Column="0">Get the app</Button>
     </Grid>

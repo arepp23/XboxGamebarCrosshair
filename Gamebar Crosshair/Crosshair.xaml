@@ -8,18 +8,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     
-    <Grid>
+    <Grid KeyUp="Grid_KeyUp">
+        
+
         <Grid x:Name="layoutRoot">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+           
             <Button x:Name="CenterButton" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Button_Click" Margin="8 8 0 0" Visibility="Visible">Center Widget</Button>
             <Image x:Name="UpArrow" Source="Assets/arrow-up.svg" HorizontalAlignment="Right" VerticalAlignment="Top" Height="50" Width="50" Margin="0 0 8 0" />
             <TextBlock x:Name="PinText" Margin="0 25 8 0" FontStyle="Normal" 
                  Visibility="Visible" TextWrapping="Wrap" HorizontalAlignment="Right" VerticalAlignment="Top">
           <Run Text="Pin to screen" Foreground="Red" />
             </TextBlock>
-            <Image x:Name="capturedPhoto" Height="{x:Bind Path=CrosshairHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="{x:Bind Path=CrosshairWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="capturedPhoto" Height="{x:Bind Path=CrosshairHeight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="{x:Bind Path=CrosshairWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
             <Grid HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="8 0 0 8" ColumnSpacing="5" RowSpacing="10" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

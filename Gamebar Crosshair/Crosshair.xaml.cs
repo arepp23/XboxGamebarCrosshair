@@ -70,45 +70,49 @@ namespace Gamebar_Crosshair
                 var folder = await StorageFolder.GetFolderFromPathAsync(localPath);
                 IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
                 var crosshairFile = fileList.FirstOrDefault();
-                ImageProperties imageProperties = await crosshairFile.Properties.GetImagePropertiesAsync();
                 if (crosshairFile == null)
                 {
-                    //BitmapImage bitmapImage = new BitmapImage();
-                    //bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Standard Blue.png");
-                    //capturedPhoto.Source = bitmapImage;
-                    Debug.WriteLine("Missing perms");
                     Frame rootFrame = Window.Current.Content as Frame;
                     rootFrame.Navigate(typeof(MissingCrosshair));
                 }
                 else
                 {
-                    //Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
-                    using (IRandomAccessStream fileStream = await crosshairFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
+                    ImageProperties imageProperties = await crosshairFile.Properties.GetImagePropertiesAsync();
+                    if (crosshairFile == null)
                     {
-                        if (crosshairFile.ContentType == "image/svg+xml")
+                        //BitmapImage bitmapImage = new BitmapImage();
+                        //bitmapImage.UriSource = new Uri(this.BaseUri, @"Assets/Standard Blue.png");
+                        //capturedPhoto.Source = bitmapImage;
+                        Debug.WriteLine("Missing perms");
+                        Frame rootFrame = Window.Current.Content as Frame;
+                        rootFrame.Navigate(typeof(MissingCrosshair));
+                    }
+                    else
+                    {
+                        //Windows.Storage.StorageFile sampleFile = await StorageFile.GetFileFromPathAsync(localPath);
+                        using (IRandomAccessStream fileStream = await crosshairFile.OpenAsync(Windows.Storage.FileAccessMode.Read))
                         {
-                            SvgImageSource svgImage = new SvgImageSource();
-                            svgImage.RasterizePixelHeight = imageProperties.Height;
-                            svgImage.RasterizePixelWidth = imageProperties.Width;
-                            await svgImage.SetSourceAsync(fileStream);
-                            capturedPhoto.Source = svgImage;
-                        }
-                        else
-                        {
-                            // Set the image source to the selected bitmap
-                            BitmapImage bitmapImage = new BitmapImage();
-                            // Decode pixel sizes are optional
-                            // It's generally a good optimisation to decode to match the size you'll display
-                            bitmapImage.DecodePixelHeight = 100;
-                            bitmapImage.DecodePixelWidth = 100;
+                            if (crosshairFile.ContentType == "image/svg+xml")
+                            {
+                                SvgImageSource svgImage = new SvgImageSource();
+                                svgImage.RasterizePixelHeight = imageProperties.Height;
+                                svgImage.RasterizePixelWidth = imageProperties.Width;
+                                await svgImage.SetSourceAsync(fileStream);
+                                capturedPhoto.Source = svgImage;
+                            }
+                            else
+                            {
+                                BitmapImage bitmapImage = new BitmapImage();
+                                bitmapImage.DecodePixelHeight = 100;
+                                bitmapImage.DecodePixelWidth = 100;
 
-                            await bitmapImage.SetSourceAsync(fileStream);
-                            capturedPhoto.Source = bitmapImage;
-                        }
+                                await bitmapImage.SetSourceAsync(fileStream);
+                                capturedPhoto.Source = bitmapImage;
+                            }
 
+                        }
                     }
                 }
-                
             }
             catch (System.UnauthorizedAccessException e)
             {
@@ -119,6 +123,11 @@ namespace Gamebar_Crosshair
             catch (NullReferenceException e)
             {
                 Debug.WriteLine("No source image");
+            }
+            catch (FileNotFoundException e)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(MissingCrosshair));
             }
         }
 
@@ -137,7 +146,7 @@ namespace Gamebar_Crosshair
         {
             widget = e.Parameter as XboxGameBarWidget;
 
-            widget.SettingsClicked += Widget_SettingsClicked;
+            //widget.SettingsClicked += Widget_SettingsClicked;
             widget.GameBarDisplayModeChanged += Widget_GameBarDisplayModeChangedAsync;
 
             Debug.WriteLine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
@@ -189,6 +198,11 @@ namespace Gamebar_Crosshair
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await widget.CenterWindowAsync();
+        }
+
+        private void Grid_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            Debug.WriteLine(e.ToString());
         }
     }
 }
